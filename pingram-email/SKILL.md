@@ -84,6 +84,12 @@ attachments: [
 ];
 ```
 
+### Size limits
+
+- **Inline (`content`):** ~4 MB raw per attachment (~6 MB total request payload after base64 and JSON overhead). Returns 413 when exceeded. Works via API and SMTP.
+- **URL (`url`):** Up to 20 MB per attachment. API only — not available via SMTP.
+- For files over ~4 MB, use a URL attachment via the API.
+
 ## Custom Domains
 
 ### Why Use a Custom Domain?
