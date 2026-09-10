@@ -9,11 +9,22 @@ Receive real-time notifications about your messages via webhooks. Track delivery
 
 ## Setting Up Webhooks
 
-1. Go to **Settings > Webhooks** in the Pingram dashboard
-2. Click **Add Webhook**
+1. Go to **Webhook** in the Pingram dashboard
+2. Click **Add endpoint**
 3. Enter your endpoint URL (must be HTTPS)
-4. Select the events you want to receive
-5. Save and test
+4. Select the events you want that endpoint to receive
+5. Save. Repeat to add more endpoints. Each endpoint has its own signing secret.
+
+## API
+
+```
+GET    /webhooks
+POST   /webhooks
+PUT    /webhooks/{endpointId}
+DELETE /webhooks/{endpointId}
+```
+
+SDK methods: `webhooks.listWebhooks`, `webhooks.createWebhook`, `webhooks.updateWebhook`, `webhooks.deleteWebhook`.
 
 ## Event Types
 
