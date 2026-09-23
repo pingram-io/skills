@@ -71,14 +71,11 @@ await client.send({
 
 ## Two-Way SMS
 
-> **Note:** Inbound SMS requires a paid account with a dedicated phone number. Contact support to set up your dedicated number.
+Receive SMS replies via webhooks.
 
-Receive SMS replies via webhooks:
-
-1. Set up a dedicated phone number (paid accounts only)
-2. Configure an inbound webhook in **Settings > Webhooks**
-3. Users reply to your SMS
-4. Pingram forwards the reply to your webhook
+1. Configure an inbound webhook in **Settings > Webhooks**
+2. Users reply to your SMS
+3. Pingram forwards the reply to your webhook
 
 Webhook payload:
 
@@ -102,9 +99,11 @@ Pingram uses A2P (Application-to-Person) enabled numbers for reliable delivery:
 - **Short codes:** High-throughput numbers for large volumes
 - **Toll-free:** US/Canada toll-free numbers
 
-### Automatic Opt-Out Handling
+### STOP, START, and HELP
 
-Pingram automatically handles opt-out keywords. When a user replies with STOP, STOPALL, UNSUBSCRIBE, CANCEL, END, or QUIT, they are automatically suppressed from future messages. No action required on your part.
+Handled for the user. STOP blocks further SMS to that number, even if the app sends again. START lifts the block. No setup required.
+
+HELP is not an automatic reply. It arrives as `SMS_INBOUND`. Reply with a short message such as "Acme: For help, visit acme.com. Reply STOP to opt out." STOP and START arrive as `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`.
 
 ### Compliance Best Practices
 
@@ -160,7 +159,7 @@ Track SMS delivery via webhooks. See the [pingram-webhooks](./pingram-webhooks/S
 }
 ```
 
-Webhook event types: `SMS_DELIVERED`, `SMS_FAILED`, `SMS_UNSUBSCRIBE`
+Webhook event types: `SMS_DELIVERED`, `SMS_FAILED`, `SMS_UNSUBSCRIBE`, `SMS_SUBSCRIBE`
 
 ## Common Issues
 

@@ -5,7 +5,7 @@ description: Set up Pingram and send your first notification. Use when the user 
 
 # Getting Started with Pingram
 
-Pingram is a notification service for sending Email, SMS, Voice, In-App, Push, and Slack notifications through a single API.
+Pingram is a notification service for sending Email, SMS, and Voice notifications through a single API.
 
 ## Quick Start
 
@@ -149,7 +149,7 @@ const client = new Pingram({
 ## Next Steps
 
 - **Define notification types in dashboard:** Optionally pre-configure notification types with templates, channel settings, and more
-- **Add more channels:** Include `sms`, `call`, `inapp`, `mobile_push`, `web_push`, or `slack` in your send request
+- **Add more channels:** Include `sms` or `call` in your send request
 - **Use templates:** Create reusable templates in the dashboard and reference them by ID
 - **Set up webhooks:** Receive delivery events via webhooks
 

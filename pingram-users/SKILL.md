@@ -5,7 +5,7 @@ description: Identify and manage users in Pingram. Use when syncing users, setti
 
 # Pingram Users
 
-Users are the recipients of notifications. Every user has a developer-chosen `id` (your own user ID); channel addresses (email, phone number, push tokens) and custom properties hang off it. Users exist implicitly — you can send to `{ id, email }` without creating anything first — but syncing users with `identify` unlocks audience segmentation, preferences, and cleaner sends.
+Users are the recipients of notifications. Every user has a developer-chosen `id` (your own user ID); channel addresses (email, phone number) and custom properties hang off it. Users exist implicitly — you can send to `{ id, email }` without creating anything first — but syncing users with `identify` unlocks audience segmentation, preferences, and cleaner sends.
 
 ## Identify (Create or Update)
 
@@ -34,13 +34,10 @@ Identifiable fields:
 
 | Field           | Purpose                                                      |
 | --------------- | ------------------------------------------------------------ |
-| `email`         | Email notifications                                          |
-| `number`        | SMS and voice calls (E.164 format)                           |
-| `pushTokens`    | Mobile push (FCM/APN)                                        |
-| `webPushTokens` | Browser web push subscriptions                               |
-| `slackChannel`  | Slack delivery target (`#channel`, `C…`/`U…` ID, or `@user`) |
-| `timezone`      | IANA timezone, used for scheduling                           |
-| `properties`    | Custom key-value data for segmentation                       |
+| `email`      | Email notifications                    |
+| `number`     | SMS and voice calls (E.164 format)     |
+| `timezone`   | IANA timezone, used for scheduling     |
+| `properties` | Custom key-value data for segmentation |
 
 ## Custom Properties
 
@@ -84,7 +81,7 @@ const page = await pingram.users.listUsers(1000, '');
 // page.users, page.hasMore; pass page.lastEvaluatedKey as the
 // nextToken argument to fetch the next page
 
-// Delete a user and all associated data (preferences, in-app notifications)
+// Delete a user and all associated data (preferences)
 await pingram.users.deleteUser('user-123');
 ```
 

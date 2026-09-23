@@ -45,8 +45,9 @@ SDK methods: `webhooks.listWebhooks`, `webhooks.createWebhook`, `webhooks.update
 | ----------------- | --------------------------------------------------------- |
 | `SMS_DELIVERED`   | SMS delivered to recipient                                |
 | `SMS_FAILED`      | SMS delivery failed                                       |
-| `SMS_UNSUBSCRIBE` | Recipient unsubscribed                                    |
-| `SMS_INBOUND`     | Received an inbound SMS (paid accounts, dedicated number) |
+| `SMS_UNSUBSCRIBE` | Recipient replied STOP (further SMS to that number stops) |
+| `SMS_SUBSCRIBE`   | Recipient replied START (SMS to that number resumes)      |
+| `SMS_INBOUND`     | Received an inbound SMS, including HELP                   |
 
 ### Voice Events
 
@@ -54,24 +55,6 @@ SDK methods: `webhooks.listWebhooks`, `webhooks.createWebhook`, `webhooks.update
 | ------------------ | ---------------------- |
 | `CALL_FAILED`      | Voice call failed      |
 | `CALL_UNSUBSCRIBE` | Recipient unsubscribed |
-
-### Push Events
-
-| Event Type             | Description                 |
-| ---------------------- | --------------------------- |
-| `PUSH_FAILED`          | Mobile push delivery failed |
-| `PUSH_UNSUBSCRIBE`     | Recipient unsubscribed      |
-| `WEB_PUSH_FAILED`      | Web push delivery failed    |
-| `WEB_PUSH_UNSUBSCRIBE` | Recipient unsubscribed      |
-
-### Other Events
-
-| Event Type              | Description            |
-| ----------------------- | ---------------------- |
-| `INAPP_WEB_FAILED`      | In-app message failed  |
-| `INAPP_WEB_UNSUBSCRIBE` | Recipient unsubscribed |
-| `SLACK_FAILED`          | Slack message failed   |
-| `SLACK_UNSUBSCRIBE`     | Recipient unsubscribed |
 
 > **Note:** Inbound events (`EMAIL_INBOUND`, `SMS_INBOUND`) have a different payload structure. See the pingram-inbound skill for details.
 
@@ -94,7 +77,7 @@ All webhook payloads use a flat structure with the following fields:
 | `eventType`       | string | The event type (see Event Types above)                           |
 | `trackingId`      | string | Unique ID for the notification (optional)                        |
 | `notificationId`  | string | The notification type                                            |
-| `channel`         | string | `EMAIL`, `SMS`, `CALL`, `PUSH`, `WEB_PUSH`, `INAPP_WEB`, `SLACK` |
+| `channel`         | string | `EMAIL`, `SMS`, `CALL`                                           |
 | `userId`          | string | The recipient's user ID                                          |
 | `failureCode`     | string | Error code (only for `*_FAILED` events)                          |
 | `clickedLink`     | string | URL clicked (only for `EMAIL_CLICK`)                             |

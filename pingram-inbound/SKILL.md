@@ -12,7 +12,7 @@ Receive emails and SMS messages from your users and handle them in your applicat
 Pingram supports inbound messaging for:
 
 - **Email:** Receive emails at your custom domain or `yourcompany@mail.pingram.io`
-- **SMS:** Receive SMS replies to outbound messages (paid accounts with dedicated number)
+- **SMS:** Receive SMS replies to outbound messages
 
 ## Email Inbound
 
@@ -85,11 +85,9 @@ Use this for:
 
 ## SMS Inbound
 
-> **Note:** Inbound SMS requires a paid account with a dedicated phone number. Request a dedicated number from the dashboard.
-
 ### Receiving SMS Replies
 
-When users reply to SMS notifications, Pingram forwards the message to your webhook:
+When users reply to SMS notifications, Pingram forwards the message to your webhook. STOP and START are not `SMS_INBOUND`; they arrive as `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`. HELP is a normal inbound message.
 
 ```json
 {
@@ -158,5 +156,5 @@ await client.send({
 3. Enter your endpoint URL
 4. Select events to receive:
    - `EMAIL_INBOUND`
-   - `SMS_INBOUND` (paid accounts with dedicated number)
+   - `SMS_INBOUND`
 5. Save and test
