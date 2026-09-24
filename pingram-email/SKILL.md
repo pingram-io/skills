@@ -84,6 +84,20 @@ attachments: [
 ];
 ```
 
+### Calendar invites
+
+Send a calendar invite on the existing `send` call. Do not build a calendar object in Pingram. The caller supplies the iCalendar text.
+
+Add one inline attachment on `options.email.attachments`:
+
+- `filename`: `invite.ics`
+- `content`: the iCalendar text, raw base64, no `data:` prefix
+- `contentType`: `text/calendar; method=REQUEST`
+
+`method` must match the `METHOD` line in the calendar (`REQUEST`, `CANCEL`, `REPLY`, or `PUBLISH`). That parameter is what makes Gmail and Outlook treat the file as an invite. A `.ics` filename with no `contentType` is only `text/calendar`. URL attachments cannot set `contentType`, so they cannot carry a method.
+
+The calendar text needs `METHOD`, a stable `UID`, `DTSTART`, `DTEND`, `ORGANIZER`, and `ATTENDEE`, with CRLF line breaks. Reuse the `UID` to update the same event. Cancel with `METHOD:CANCEL` and `contentType` `text/calendar; method=CANCEL`.
+
 ### Size limits
 
 - **Inline (`content`):** ~4 MB raw per attachment (~6 MB total request payload after base64 and JSON overhead). Returns 413 when exceeded. Works via API and SMTP.
