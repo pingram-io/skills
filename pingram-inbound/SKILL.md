@@ -87,7 +87,7 @@ Use this for:
 
 ### Receiving SMS Replies
 
-When users reply to SMS notifications, Pingram forwards the message to your webhook. STOP and START are not `SMS_INBOUND`; they arrive as `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`. HELP is a normal inbound message.
+Pingram forwards an inbound text to your webhook as `SMS_INBOUND`. Inbound SMS to the free shared number only works when that person has already received a text from this number. Inbound SMS to a dedicated number works normally. STOP and START arrive as `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`. HELP is a normal inbound message.
 
 ```json
 {
@@ -151,10 +151,18 @@ await client.send({
 
 ### Setting Up Webhooks
 
-1. Go to **Settings > Webhooks** in the dashboard
-2. Click **Add Webhook**
-3. Enter your endpoint URL
-4. Select events to receive:
-   - `EMAIL_INBOUND`
-   - `SMS_INBOUND`
-5. Save and test
+Subscribe an http(s) endpoint to `EMAIL_INBOUND` and/or `SMS_INBOUND`.
+
+Inbound SMS to the free shared number only works when that person has already received a text from this number. Inbound SMS to a dedicated number works normally.
+
+**MCP:** `webhooks_createWebhook` with `webhook` and `events`. Save the returned `secret`. `webhooks_listWebhooks` shows existing endpoints. `webhooks_updateWebhook` replaces the full event list and keeps the secret.
+
+**CLI:**
+
+```bash
+pingram webhooks create \
+  --webhook https://example.com/webhooks/pingram \
+  --events EMAIL_INBOUND SMS_INBOUND
+```
+
+**Dashboard:** Settings > Webhooks > Add endpoint, then select `EMAIL_INBOUND` and `SMS_INBOUND`.

@@ -23,7 +23,7 @@ npx skills add pingram-io/skills
 | [pingram-sms](./pingram-sms/SKILL.md)                         | SMS notification configuration and delivery                 |
 | [pingram-voice](./pingram-voice/SKILL.md)                     | Voice call notifications with text-to-speech                |
 | [pingram-inbound](./pingram-inbound/SKILL.md)                 | Receive inbound emails and SMS                              |
-| [pingram-webhooks](./pingram-webhooks/SKILL.md)               | Event webhooks for delivery tracking                        |
+| [pingram-webhooks](./pingram-webhooks/SKILL.md)               | Event webhooks, including setup through MCP or the CLI      |
 | [pingram-broadcasts](./pingram-broadcasts/SKILL.md)           | Draft email broadcasts, audiences, and metrics (human sends) |
 | [pingram-users](./pingram-users/SKILL.md)                     | User identification: identify, custom properties, audiences |
 

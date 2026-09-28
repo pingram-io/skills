@@ -1,6 +1,6 @@
 ---
 name: pingram-webhooks
-description: Configure webhooks for Pingram events. Use when the user wants to receive delivery notifications, track email opens and clicks, handle bounces, or integrate with external systems.
+description: Configure Pingram webhooks. Use when the user wants delivery notifications, opens, clicks, bounces, inbound messages, or to create a webhook with MCP or the CLI.
 ---
 
 # Pingram Webhooks
@@ -25,6 +25,30 @@ DELETE /webhooks/{endpointId}
 ```
 
 SDK methods: `webhooks.listWebhooks`, `webhooks.createWebhook`, `webhooks.updateWebhook`, `webhooks.deleteWebhook`.
+
+## MCP and CLI
+
+Use these when an agent should configure webhooks without the dashboard. MCP tool names match the OpenAPI operation ids:
+
+- `webhooks_listWebhooks` — ids, URLs, subscribed events, and signing secrets
+- `webhooks_createWebhook` — `webhook` URL plus `events`. The response includes `secret` (`pingram_whsecret_...`). Save it.
+- `webhooks_updateWebhook` — replaces the URL and the full `events` list. The secret stays the same. Omitting an event unsubscribes it.
+- `webhooks_deleteWebhook` — stops delivery to that endpoint only
+
+Pass optional `accountId` (from `accounts_listAccounts`) when the user has more than one account.
+
+```bash
+pingram webhooks list
+pingram webhooks create \
+  --webhook https://example.com/webhooks/pingram \
+  --events EMAIL_DELIVERED
+pingram webhooks update <endpointId> \
+  --webhook https://example.com/webhooks/pingram \
+  --events EMAIL_DELIVERED
+pingram webhooks delete <endpointId>
+```
+
+`events` is the full subscription. At most 10 endpoints per account. Event names, including inbound mail and SMS, are listed below.
 
 ## Event Types
 
