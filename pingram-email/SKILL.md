@@ -46,6 +46,9 @@ await client.send({
       replyToAddresses: ['support@yourcompany.com'],
       ccAddresses: ['manager@yourcompany.com'],
       bccAddresses: ['archive@yourcompany.com'],
+      // false skips that kind of tracking for this send. Delivery events still record.
+      openTracking: false,
+      clickTracking: false,
       attachments: [
         {
           filename: 'invoice.pdf',
