@@ -87,7 +87,7 @@ Use this for:
 
 ### Receiving SMS Replies
 
-Pingram forwards an inbound text to your webhook as `SMS_INBOUND`. Inbound SMS to the free shared number only works when that person has already received a text from this number. Inbound SMS to a dedicated number works normally. STOP and START arrive as `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`. HELP is a normal inbound message.
+Pingram forwards an inbound text to your webhook as `SMS_INBOUND`. `trackingId` identifies this inbound message. Inbound SMS to the free shared number only works when that person has already received a text from this number. Inbound SMS to a dedicated number works normally. STOP and START arrive as `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`. HELP is a normal inbound message.
 
 ```json
 {
@@ -97,7 +97,7 @@ Pingram forwards an inbound text to your webhook as `SMS_INBOUND`. Inbound SMS t
   "text": "Yes, confirm my appointment",
   "receivedAt": "2024-01-15T10:30:00Z",
   "userId": "user@example.com",
-  "lastTrackingId": "019abc12-3456-7890-abcd-ef1234567890"
+  "trackingId": "019abc12-3456-7890-abcd-ef1234567890"
 }
 ```
 
@@ -106,7 +106,7 @@ Pingram forwards an inbound text to your webhook as `SMS_INBOUND`. Inbound SMS t
 ```typescript
 // Handle inbound SMS
 app.post('/webhooks/pingram', async (req, res) => {
-  const { eventType, from, text, userId, lastTrackingId } = req.body;
+  const { eventType, from, text, userId, trackingId } = req.body;
 
   if (eventType === 'SMS_INBOUND') {
     // Process the reply
@@ -127,23 +127,6 @@ app.post('/webhooks/pingram', async (req, res) => {
   }
 
   res.status(200).send('OK');
-});
-```
-
-### SMS Auto-Reply
-
-Configure automatic replies when sending:
-
-```typescript
-await client.send({
-  type: 'survey',
-  to: { id: 'user_123', number: '+15005550006' },
-  sms: {
-    message: 'How was your experience? Reply 1-5.',
-    autoReply: {
-      message: 'Thanks for your feedback!'
-    }
-  }
 });
 ```
 

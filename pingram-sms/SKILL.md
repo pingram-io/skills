@@ -52,23 +52,6 @@ to: {
 }
 ```
 
-## Auto-Reply
-
-Configure automatic replies when users respond to your SMS:
-
-```typescript
-await client.send({
-  type: 'survey',
-  to: { id: 'user_123', number: '+15005550006' },
-  sms: {
-    message: 'How was your experience? Reply 1-5.',
-    autoReply: {
-      message: 'Thanks for your feedback! We appreciate it.'
-    }
-  }
-});
-```
-
 ## Two-Way SMS
 
 Receive SMS replies via webhooks.
@@ -77,7 +60,7 @@ Receive SMS replies via webhooks.
 2. Users reply to your SMS
 3. Pingram forwards the reply to your webhook
 
-Webhook payload:
+Webhook payload. `trackingId` identifies this inbound message:
 
 ```json
 {
@@ -87,7 +70,7 @@ Webhook payload:
   "text": "Yes, confirm my appointment",
   "receivedAt": "2024-01-15T10:30:00Z",
   "userId": "user@example.com",
-  "lastTrackingId": "019abc12-3456-7890-abcd-ef1234567890"
+  "trackingId": "019abc12-3456-7890-abcd-ef1234567890"
 }
 ```
 
