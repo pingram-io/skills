@@ -134,18 +134,13 @@ After domain verification, add sender addresses:
 
 Pingram can receive emails and forward them to your application via webhooks.
 
-### Default Inbox
+### Your domain
 
-Every account gets an inbox at `yourcompany@mail.pingram.io`. Configure a webhook to receive inbound emails.
+Verify the domain, add the inbound MX record shown in **Settings > Domains**, and subscribe a webhook to `EMAIL_INBOUND`. Every address on that domain and its subdomains is delivered after DKIM succeeds. Adding a domain before DKIM succeeds does not deliver its mail. Saved addresses are not required.
 
-### Custom Domain Inbound
+### Trying inbound without a domain
 
-To receive emails at your custom domain:
-
-1. Verify your domain (see above)
-2. Go to **Settings > Domains** and enable inbound for your domain
-3. Add the MX record shown in the dashboard to your DNS provider
-4. Configure your inbound webhook in **Settings > Webhooks**
+Each account has a Pingram address such as `yourcompany@mail.pingram.io`. Use it to try inbound email before you connect a domain. Do not use it for production traffic.
 
 ### Inbound Webhook Payload
 
@@ -154,8 +149,17 @@ To receive emails at your custom domain:
   "eventType": "EMAIL_INBOUND",
   "from": "customer@example.com",
   "fromName": "John Doe",
-  "to": "support@yourcompany.com",
+  "matched": {
+    "email": "support@yourcompany.com",
+    "name": "Support"
+  },
+  "to": "client@example.com",
   "cc": ["manager@yourcompany.com"],
+  "toRecipients": [
+    { "email": "client@example.com" },
+    { "email": "support@yourcompany.com", "name": "Support" }
+  ],
+  "ccRecipients": [{ "email": "manager@yourcompany.com", "name": "Manager" }],
   "replyTo": "customer@example.com",
   "subject": "Help needed",
   "bodyText": "Plain text body",
@@ -165,18 +169,23 @@ To receive emails at your custom domain:
       "filename": "document.pdf",
       "contentType": "application/pdf",
       "size": 12345,
-      "content": "base64-encoded-content"
+      "content": "base64-encoded-content",
+      "contentId": "document",
+      "contentDisposition": "attachment"
     }
   ],
   "messageId": "<unique-id@example.com>",
   "inReplyTo": "<original-message-id>",
   "references": "<thread-references>",
   "receivedAt": "2024-01-15T10:30:00Z",
+  "sentAt": "2024-01-15T10:29:00Z",
   "trackingId": "019abc12-3456-7890-abcd-ef1234567890",
   "userId": "customer@example.com",
   "type": "support_inquiry"
 }
 ```
+
+`matched` is the address that received the mail, including any address on your domain or its subdomains, and when that address was only in Cc or Bcc. Compare `matched.email` with `toRecipients` and `ccRecipients` to see which header contained it. `toRecipients` and `ccRecipients` are the headers with display names. `to` and `cc` are deprecated and unchanged for existing webhooks. Use `toRecipients` and `ccRecipients`. `receivedAt` is when the message was accepted. `sentAt` is the sender Date header and is omitted when that header is missing or invalid. `fromName` is the sender display name. `contentId` matches `cid:` in the HTML body. The whole message limit is 40 MB including headers. Larger mail is bounced and is not stored. One inbound email counts as 1 email. Attachment size does not add usage. Resend a failed inbound webhook for 30 days with `logs.retryInbound`. A resend does not count as another email.
 
 ## SMTP Relay
 

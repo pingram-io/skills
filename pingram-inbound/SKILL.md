@@ -11,41 +11,39 @@ Receive emails and SMS messages from your users and handle them in your applicat
 
 Pingram supports inbound messaging for:
 
-- **Email:** Receive emails at your custom domain or `yourcompany@mail.pingram.io`
+- **Email:** Receive every address on your domain and its subdomains, or try a Pingram address before you have a domain
 - **SMS:** Receive SMS replies to outbound messages
 
 ## Email Inbound
 
-### Default Inbox
+### Your domain
 
-Every Pingram account includes an inbox:
+Verify the domain in Settings > Domains and add the inbound MX record from the dashboard. Pingram then delivers every recipient on that domain and its subdomains to the `EMAIL_INBOUND` webhook. `support@yourcompany.com` and `scheduler@mail.yourcompany.com` both arrive when `yourcompany.com` is DKIM-verified. Adding a domain before DKIM succeeds does not deliver its mail. Do not create an address per mailbox.
 
-```
-yourcompany@mail.pingram.io
-```
+### Trying inbound without a domain
 
-Emails sent to this address are forwarded to your webhook.
-
-### Custom Domain Inbound
-
-To receive emails at your own domain (e.g., `support@yourcompany.com`):
-
-1. **Verify your domain** in Settings > Domains
-2. **Add MX record:** Copy the MX record shown in the dashboard and add it to your DNS provider
-
-3. **Configure webhook** in Settings > Webhooks
+Each account has one address for testing, shaped like `yourcompany@mail.pingram.io`. Mail to that exact address is delivered. These addresses are not for production traffic.
 
 ### Inbound Email Webhook
 
-Configure your webhook URL to receive inbound emails:
+Subscribe an endpoint to `EMAIL_INBOUND` in Settings > Webhooks. Without that subscription, inbound mail is not sent to your application.
 
 ```json
 {
   "eventType": "EMAIL_INBOUND",
   "from": "customer@example.com",
   "fromName": "John Doe",
-  "to": "support@yourcompany.com",
+  "matched": {
+    "email": "support@yourcompany.com",
+    "name": "Support"
+  },
+  "to": "client@example.com",
   "cc": ["manager@yourcompany.com"],
+  "toRecipients": [
+    { "email": "client@example.com" },
+    { "email": "support@yourcompany.com", "name": "Support" }
+  ],
+  "ccRecipients": [{ "email": "manager@yourcompany.com", "name": "Manager" }],
   "replyTo": "customer@example.com",
   "subject": "Need help with my order",
   "bodyText": "Plain text version of the email body",
@@ -55,18 +53,33 @@ Configure your webhook URL to receive inbound emails:
       "filename": "screenshot.png",
       "contentType": "image/png",
       "size": 12345,
-      "content": "base64-encoded-content"
+      "content": "base64-encoded-content",
+      "contentId": "screenshot",
+      "contentDisposition": "inline"
     }
   ],
   "messageId": "<unique-id@example.com>",
   "inReplyTo": "<original-message-id>",
   "references": "<thread-references>",
   "receivedAt": "2024-01-15T10:30:00Z",
+  "sentAt": "2024-01-15T10:29:00Z",
   "trackingId": "019abc12-3456-7890-abcd-ef1234567890",
   "userId": "customer@example.com",
   "type": "support_inquiry"
 }
 ```
+
+`matched.email` is the address on your account that received the mail, including any address on your domain or its subdomains, and including when that address was only in Cc or Bcc. Compare it with `toRecipients`, `ccRecipients`, and `bccRecipients` to see which header contained it. `toRecipients` and `ccRecipients` are the original headers with display names. `to` and `cc` are deprecated and unchanged for existing webhooks. `to` is the first To-header address. `cc` is the Cc addresses without names. Use `toRecipients` and `ccRecipients`. `bccRecipients` is present only when the Bcc header is still on the message.
+
+`receivedAt` is when the message was accepted. `sentAt` is the sender Date header and is absent when that header is missing or invalid.
+
+`contentId` has the angle brackets removed, so it matches `cid:` references in `bodyHtml`. It is omitted when the attachment has no Content-ID. `contentDisposition` is `inline` or `attachment`.
+
+The whole message, including headers, can be up to 40 MB. There is no separate per-attachment cap. Larger mail is bounced by the receiving service and is not stored or truncated.
+
+One processed inbound email counts as 1 email. Attachment size does not add usage.
+
+A failed inbound webhook can be resent for 30 days with `logs.retryInbound` (`POST /logs/retry/{trackingId}`). The resend keeps the original `trackingId` and does not count as another email.
 
 ### Reply Detection
 

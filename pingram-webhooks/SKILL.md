@@ -96,16 +96,16 @@ All webhook payloads use a flat structure with the following fields:
 }
 ```
 
-| Field             | Type   | Description                                                      |
-| ----------------- | ------ | ---------------------------------------------------------------- |
-| `eventType`       | string | The event type (see Event Types above)                           |
-| `trackingId`      | string | Unique ID for the notification (optional)                        |
-| `notificationId`  | string | The notification type                                            |
-| `channel`         | string | `EMAIL`, `SMS`, `CALL`                                           |
-| `userId`          | string | The recipient's user ID                                          |
-| `failureCode`     | string | Error code (only for `*_FAILED` events)                          |
-| `clickedLink`     | string | URL clicked (only for `EMAIL_CLICK`)                             |
-| `clickedLinkTags` | object | Link tags (only for `EMAIL_CLICK`)                               |
+| Field             | Type   | Description                               |
+| ----------------- | ------ | ----------------------------------------- |
+| `eventType`       | string | The event type (see Event Types above)    |
+| `trackingId`      | string | Unique ID for the notification (optional) |
+| `notificationId`  | string | The notification type                     |
+| `channel`         | string | `EMAIL`, `SMS`, `CALL`                    |
+| `userId`          | string | The recipient's user ID                   |
+| `failureCode`     | string | Error code (only for `*_FAILED` events)   |
+| `clickedLink`     | string | URL clicked (only for `EMAIL_CLICK`)      |
+| `clickedLinkTags` | object | Link tags (only for `EMAIL_CLICK`)        |
 
 > **Note:** Inbound events (`EMAIL_INBOUND`, `SMS_INBOUND`) have a different payload structure with fields like `from`, `to`, `text`/`bodyText`, `receivedAt`, etc. See the [pingram-inbound](./pingram-inbound/SKILL.md) skill for detailed payload examples.
 
@@ -356,7 +356,7 @@ Then use the ngrok URL as your webhook endpoint.
 
 - Verify URL is correct and HTTPS
 - Check firewall allows incoming connections
-- Ensure your server returns 2xx status
+- Ensure your server returns 2xx status. Each endpoint is tried up to 3 times. Each attempt has 6 seconds: the call times out at 6 seconds, or a faster failure waits out the rest of those 6 seconds. Delivery stops on the first 2xx. The payload and `trackingId` stay the same. The signature timestamp is new on each attempt.
 
 **Duplicate events:**
 
