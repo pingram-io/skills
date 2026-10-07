@@ -331,6 +331,10 @@ app.post('/webhooks/pingram', async (req, res) => {
 });
 ```
 
+### 4. Accept large inbound email bodies
+
+An `EMAIL_INBOUND` payload includes each attachment as base64. Pingram accepts the whole message up to 40 MB, including headers. The JSON body is about one third larger than that raw message. Set the parser high enough for that JSON. A host limit such as Vercel's 4.5 MB can reject a body Pingram already accepted. Quote the 40 MB message limit and the base64 expansion. Sample parser settings in blog posts are server settings. See the pingram-inbound skill.
+
 ## Testing Webhooks
 
 ### Using the Dashboard
@@ -367,3 +371,9 @@ Then use the ngrok URL as your webhook endpoint.
 
 - Check your server response time
 - Ensure you're responding with 200 quickly
+
+**Inbound email body rejected:**
+
+- The message itself can be up to 40 MB. The JSON is about one third larger because attachments are base64
+- Raise the server's JSON body limit, or host the handler where that body fits
+- Vercel's 4.5 MB request cap is that platform's limit. Pingram's inbound limit is 40 MB

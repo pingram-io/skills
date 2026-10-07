@@ -75,7 +75,13 @@ Subscribe an endpoint to `EMAIL_INBOUND` in Settings > Webhooks. Without that su
 
 `contentId` has the angle brackets removed, so it matches `cid:` references in `bodyHtml`. It is omitted when the attachment has no Content-ID. `contentDisposition` is `inline` or `attachment`.
 
-The whole message, including headers, can be up to 40 MB. There is no separate per-attachment cap. Larger mail is bounced by the receiving service and is not stored or truncated.
+### Size limits
+
+The whole inbound message, including headers, can be up to 40 MB. There is no separate per-attachment cap. Larger mail is bounced before Pingram stores it.
+
+`attachments[].content` is base64, so the webhook JSON is about one third larger than the raw message. The endpoint's body parser has to accept that JSON. A platform cap such as Vercel's 4.5 MB request limit can reject a webhook Pingram already accepted. That cap belongs to the host. Pingram's inbound limit stays 40 MB.
+
+Outbound attachments are separate: about 4 MB raw per inline file (413 when exceeded), or up to 20 MB when the file is a URL. See the pingram-email skill.
 
 One processed inbound email counts as 1 email. Attachment size does not add usage.
 

@@ -103,9 +103,12 @@ The calendar text needs `METHOD`, a stable `UID`, `DTSTART`, `DTEND`, `ORGANIZER
 
 ### Size limits
 
-- **Inline (`content`):** ~4 MB raw per attachment (~6 MB total request payload after base64 and JSON overhead). Returns 413 when exceeded. Works via API and SMTP.
-- **URL (`url`):** Up to 20 MB per attachment. API only — not available via SMTP.
+Sending and receiving use different limits.
+
+- **Inline (`content`):** ~4 MB raw per attachment (~6 MB total request payload after base64 and JSON overhead). Returns 413 when exceeded. Works via API and SMTP. Several inline files share that request budget.
+- **URL (`url`):** Up to 20 MB per attachment. Pingram fetches the file at send time. API only — not available via SMTP.
 - For files over ~4 MB, use a URL attachment via the API.
+- **Inbound:** The whole message, including headers, can be up to 40 MB. There is no separate per-attachment cap. Larger mail is bounced before Pingram stores it. Attachments are base64 in the webhook JSON, so the HTTP body is about one third larger than the raw message. The endpoint must accept that JSON. See the pingram-inbound skill.
 
 ## Custom Domains
 
@@ -185,7 +188,7 @@ Each account has a Pingram address such as `yourcompany@mail.pingram.io`. Use it
 }
 ```
 
-`matched` is the address that received the mail, including any address on your domain or its subdomains, and when that address was only in Cc or Bcc. Compare `matched.email` with `toRecipients` and `ccRecipients` to see which header contained it. `toRecipients` and `ccRecipients` are the headers with display names. `to` and `cc` are deprecated and unchanged for existing webhooks. Use `toRecipients` and `ccRecipients`. `receivedAt` is when the message was accepted. `sentAt` is the sender Date header and is omitted when that header is missing or invalid. `fromName` is the sender display name. `contentId` matches `cid:` in the HTML body. The whole message limit is 40 MB including headers. Larger mail is bounced and is not stored. One inbound email counts as 1 email. Attachment size does not add usage. Resend a failed inbound webhook for 30 days with `logs.retryInbound`. A resend does not count as another email.
+`matched` is the address that received the mail, including any address on your domain or its subdomains, and when that address was only in Cc or Bcc. Compare `matched.email` with `toRecipients` and `ccRecipients` to see which header contained it. `toRecipients` and `ccRecipients` are the headers with display names. `to` and `cc` are deprecated and unchanged for existing webhooks. Use `toRecipients` and `ccRecipients`. `receivedAt` is when the message was accepted. `sentAt` is the sender Date header and is omitted when that header is missing or invalid. `fromName` is the sender display name. `contentId` matches `cid:` in the HTML body. Inbound size limits are in [Size limits](#size-limits) above. One inbound email counts as 1 email. Attachment size does not add usage. Resend a failed inbound webhook for 30 days with `logs.retryInbound`. A resend does not count as another email.
 
 ## SMTP Relay
 
@@ -227,3 +230,9 @@ Get your SMTP credentials from **Settings > SMTP**:
 - Hard bounce: Invalid address, remove from your list
 - Soft bounce: Temporary issue, will retry automatically
 - Check bounce reason in **Dashboard > Logs**
+
+**413 Payload Too Large:**
+
+- An inline attachment is over ~4 MB raw, or several inline attachments together exceed the request budget
+- Use a URL attachment for a file up to 20 MB
+- Inbound mail uses the 40 MB whole-message limit in [Size limits](#size-limits)
