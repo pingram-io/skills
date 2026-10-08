@@ -89,7 +89,7 @@ REST equivalents: `GET /users/{userId}`, `GET /users?limit=&nextToken=`, `DELETE
 
 ## Notification Preferences
 
-Users have per-notification-type, per-channel preferences, readable and writable over REST at `GET/POST /users/{userId}/preferences`. In most integrations you never touch them directly: unsubscribes from broadcast emails are recorded automatically when recipients click the `{{notificationapi:unsubscribe_url}}` link, and future broadcasts of that type skip them.
+Users have per-notification-type, per-channel preferences, readable and writable over REST at `GET/POST /users/{userId}/preferences`. In most integrations you never touch them directly: unsubscribes from broadcast emails are recorded automatically when recipients click the `{{ pingram.unsubscribe }}` link, and future broadcasts of that type skip them.
 
 ## Debugging
 

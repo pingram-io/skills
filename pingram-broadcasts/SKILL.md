@@ -116,6 +116,7 @@ For audiences larger than 10,000, sync users via the Users API and use `filter`.
 | `{{ user.timezone }}` | IANA timezone, if identified |
 | `{{ user.properties.<key> }}` | Custom properties from `user.identify` (flat strings / numbers / booleans) |
 | `{{ pingram.unsubscribe }}` | Per-recipient unsubscribe URL for this broadcast's `type` |
+| `{{ pingram.unsubscribe }}&locale=fr-CA` | Same URL, with the landing page forced to a locale (`fr-CA`, `fr-FR`, `es-ES`, `es-MX`, `de`, `pt-BR`, `pt-PT`, `it`, and the shared `en` / `fr` / `es` / `pt` bundles). Use `&`, not `?`. `fr_CA` is accepted. |
 | `{{notificationapi:unsubscribe_url}}` | Legacy alias for the same URL. Still works; prefer `pingram.unsubscribe`. |
 
 Notes:
