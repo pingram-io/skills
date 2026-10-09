@@ -160,6 +160,7 @@ Webhook event types: `SMS_DELIVERED`, `SMS_FAILED`, `SMS_UNSUBSCRIBE`, `SMS_SUBS
 **Message not delivered:**
 
 - Check **Dashboard > Logs** for delivery status and error details
+- Or call `logs.getDeliveryStatus` (`GET /logs/status/{trackingIds}`) for email and SMS. It returns the tracking id, channel, status, and timestamp only
 - Verify the number is valid and can receive SMS
 - Check the number isn't on a suppression list
 

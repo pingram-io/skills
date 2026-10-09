@@ -216,6 +216,7 @@ Get your SMTP credentials from **Settings > SMTP**:
 **Email not delivered:**
 
 - Check **Dashboard > Logs** for delivery status and bounce details
+- Or call `logs.getDeliveryStatus` (`GET /logs/status/{trackingIds}`) for email and SMS. It returns the tracking id, channel, status, and timestamp only
 - Verify the recipient address is valid
 - Check if the domain is verified in **Settings > Domains**
 
