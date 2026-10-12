@@ -108,16 +108,16 @@ For audiences larger than 10,000, sync users via the Users API and use `filter`.
 <p><a href="{{ pingram.unsubscribe }}">Unsubscribe</a></p>
 ```
 
-| Tag | Source |
-| --- | --- |
-| `{{ user.id }}` | Your user id. For `audience.emails`, this is the lowercased email. |
-| `{{ user.email }}` | Email address |
-| `{{ user.number }}` | E.164 phone, if identified |
-| `{{ user.timezone }}` | IANA timezone, if identified |
-| `{{ user.properties.<key> }}` | Custom properties from `user.identify` (flat strings / numbers / booleans) |
-| `{{ pingram.unsubscribe }}` | Per-recipient unsubscribe URL for this broadcast's `type` |
+| Tag                                      | Source                                                                                                                                                                                                          |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `{{ user.id }}`                          | Your user id. For `audience.emails`, this is the lowercased email.                                                                                                                                              |
+| `{{ user.email }}`                       | Email address                                                                                                                                                                                                   |
+| `{{ user.number }}`                      | E.164 phone, if identified                                                                                                                                                                                      |
+| `{{ user.timezone }}`                    | IANA timezone, if identified                                                                                                                                                                                    |
+| `{{ user.properties.<key> }}`            | Custom properties from `user.identify` (flat strings / numbers / booleans)                                                                                                                                      |
+| `{{ pingram.unsubscribe }}`              | Per-recipient unsubscribe URL for this broadcast's `type`                                                                                                                                                       |
 | `{{ pingram.unsubscribe }}&locale=fr-CA` | Same URL, with the landing page forced to a locale (`fr-CA`, `fr-FR`, `es-ES`, `es-MX`, `de`, `pt-BR`, `pt-PT`, `it`, and the shared `en` / `fr` / `es` / `pt` bundles). Use `&`, not `?`. `fr_CA` is accepted. |
-| `{{notificationapi:unsubscribe_url}}` | Legacy alias for the same URL. Still works; prefer `pingram.unsubscribe`. |
+| `{{notificationapi:unsubscribe_url}}`    | Legacy alias for the same URL. Still works; prefer `pingram.unsubscribe`.                                                                                                                                       |
 
 Notes:
 
@@ -152,7 +152,7 @@ const recipients = await pingram.broadcasts.listRecipients(
 
 ```typescript
 await pingram.broadcasts.update(broadcastId, { subject: 'New subject' }); // drafts only
-await pingram.broadcasts.list(); // newest first, paginated
+await pingram.broadcasts.list(); // newest first, paginated. Live filters are included; a raw email audience is `emailCount` only. Call get for `audience.emails`.
 await pingram.broadcasts.cancel(broadcastId); // stop a scheduled/sending/paused broadcast
 await pingram.broadcasts.pause(broadcastId); // pause an active send
 ```
