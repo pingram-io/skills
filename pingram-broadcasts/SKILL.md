@@ -20,7 +20,7 @@ Pingram has strict policies against using broadcasts for unsolicited messages. D
 ## Prerequisites
 
 - A Pingram API key (`PINGRAM_API_KEY`), used as a Bearer token or via an SDK.
-- A verified sending domain for full-speed sending. Broadcasts from unverified domains (including the shared default sender domain) are heavily throttled. Verify domains under **Dashboard > Settings > Domain Verification** (see the `pingram-email` skill).
+- Use a verified sending domain for sending in production. Until then and for testing purposes, broadcasts can be sent from the testing Pingram address `noreply@pingram.io` when the audience is set to the account's own email.
 
 ## Create a Draft
 

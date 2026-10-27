@@ -124,6 +124,10 @@ Sending and receiving use different limits.
 2. Add your domain (e.g., `yourcompany.com`)
 3. Copy the DNS records shown in the dashboard and add them to your DNS provider
 
+### Domain Requirement
+
+Domain verification is required to send to others. Until then and for testing purposes, email can be sent from the testing Pingram address `noreply@pingram.io` to the account's own email.
+
 ### Adding Email Senders
 
 After domain verification, add sender addresses:
