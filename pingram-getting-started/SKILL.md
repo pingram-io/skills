@@ -5,7 +5,7 @@ description: Set up Pingram and send your first notification. Use when the user 
 
 # Getting Started with Pingram
 
-Pingram is a notification service for sending Email, SMS, and Voice notifications through a single API.
+Pingram is the communication stack you can ship today. One API for email, SMS, and voice calls. We handle registration, delivery, and compliance.
 
 ## Quick Start
 
