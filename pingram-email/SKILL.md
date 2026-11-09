@@ -145,10 +145,6 @@ Pingram can receive emails and forward them to your application via webhooks.
 
 Verify the domain, add the inbound MX record shown in **Settings > Domains**, and subscribe a webhook to `EMAIL_INBOUND`. Every address on that domain and its subdomains is delivered after DKIM succeeds. Adding a domain before DKIM succeeds does not deliver its mail. Saved addresses are not required.
 
-### Trying inbound without a domain
-
-Each account has a Pingram address such as `yourcompany@mail.pingram.io`. Use it to try inbound email before you connect a domain. Do not use it for production traffic.
-
 ### Inbound Webhook Payload
 
 ```json
@@ -160,8 +156,6 @@ Each account has a Pingram address such as `yourcompany@mail.pingram.io`. Use it
     "email": "support@yourcompany.com",
     "name": "Support"
   },
-  "to": "client@example.com",
-  "cc": ["manager@yourcompany.com"],
   "toRecipients": [
     { "email": "client@example.com" },
     { "email": "support@yourcompany.com", "name": "Support" }

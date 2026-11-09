@@ -11,7 +11,7 @@ Receive emails and SMS messages from your users and handle them in your applicat
 
 Pingram supports inbound messaging for:
 
-- **Email:** Receive every address on your domain and its subdomains, or try a Pingram address before you have a domain
+- **Email:** Receive every address on your domain and its subdomains
 - **SMS:** Receive SMS replies to outbound messages
 
 ## Email Inbound
@@ -19,10 +19,6 @@ Pingram supports inbound messaging for:
 ### Your domain
 
 Verify the domain in Settings > Domains and add the inbound MX record from the dashboard. Pingram then delivers every recipient on that domain and its subdomains to the `EMAIL_INBOUND` webhook. `support@yourcompany.com` and `scheduler@mail.yourcompany.com` both arrive when `yourcompany.com` is DKIM-verified. Adding a domain before DKIM succeeds does not deliver its mail. Do not create an address per mailbox.
-
-### Trying inbound without a domain
-
-Each account has one address for testing, shaped like `yourcompany@mail.pingram.io`. Mail to that exact address is delivered. These addresses are not for production traffic.
 
 ### Inbound Email Webhook
 
@@ -37,8 +33,6 @@ Subscribe an endpoint to `EMAIL_INBOUND` in Settings > Webhooks. Without that su
     "email": "support@yourcompany.com",
     "name": "Support"
   },
-  "to": "client@example.com",
-  "cc": ["manager@yourcompany.com"],
   "toRecipients": [
     { "email": "client@example.com" },
     { "email": "support@yourcompany.com", "name": "Support" }
@@ -69,7 +63,7 @@ Subscribe an endpoint to `EMAIL_INBOUND` in Settings > Webhooks. Without that su
 }
 ```
 
-`matched.email` is the address on your account that received the mail, including any address on your domain or its subdomains, and including when that address was only in Cc or Bcc. Compare it with `toRecipients`, `ccRecipients`, and `bccRecipients` to see which header contained it. `toRecipients` and `ccRecipients` are the original headers with display names. `to` and `cc` are deprecated and unchanged for existing webhooks. `to` is the first To-header address. `cc` is the Cc addresses without names. Use `toRecipients` and `ccRecipients`. `bccRecipients` is present only when the Bcc header is still on the message.
+`matched.email` is the address that received the mail, including any address on your domain or its subdomains, and including when that address was only in Cc or Bcc. Compare it with `toRecipients`, `ccRecipients`, and `bccRecipients` to see which header contained it. Use `toRecipients` and `ccRecipients`. `bccRecipients` is present only when the Bcc header is still on the message.
 
 `receivedAt` is when the message was accepted. `sentAt` is the sender Date header and is absent when that header is missing or invalid.
 
