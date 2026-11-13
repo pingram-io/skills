@@ -73,7 +73,8 @@ audience: {
 Filter rules:
 
 - Allowed fields: `email` and `properties.<key>` only.
-- Allowed operators: `$and`, `$or`, `$exists`, `$eq`, `$ne`, `$gt`, `$gte`, `$lt`, `$lte`, `$in`. Nothing else (`$regex`, `$not`, `$nor` are rejected).
+- Allowed operators: `$and`, `$or`, `$exists`, `$eq`, `$ne`, `$gt`, `$gte`, `$lt`, `$lte`, `$in`, `$contains`, `$notContains`. Nothing else (`$regex`, `$not`, `$nor` are rejected).
+- `$contains` and `$notContains` match a substring and ignore letter case. Example: `{ email: { $notContains: "testing" } }` keeps addresses that do not include "testing". They apply to string values (`email` and string properties).
 - Caps: logical nesting depth <= 3, at most 20 clauses total.
 
 Sync users first to unlock property filters (see the `pingram-users` skill for identification details):
