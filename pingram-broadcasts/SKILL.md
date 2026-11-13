@@ -157,6 +157,8 @@ await pingram.broadcasts.cancel(broadcastId); // stop a scheduled/sending/paused
 await pingram.broadcasts.pause(broadcastId); // pause an active send
 ```
 
+MCP `broadcasts_pause` and `broadcasts_cancel` return `broadcastId` and `status` only. They do not return the audience, HTML, or editor source. Read those with get.
+
 Only drafts can be edited. Scheduled or actively sending broadcasts are locked; cancel first (or have the user cancel in the dashboard) before editing.
 
 ## REST Endpoints

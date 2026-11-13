@@ -28,14 +28,16 @@ SDK methods: `webhooks.listWebhooks`, `webhooks.createWebhook`, `webhooks.update
 
 ## MCP and CLI
 
-Use these when an agent should configure webhooks without the dashboard. MCP tool names match the OpenAPI operation ids:
+Use these when an agent should configure webhooks without the dashboard. MCP tool names match the OpenAPI operation ids. MCP results do not include the signing secret. Copy it from the dashboard Webhook page. The CLI and HTTP API still return it on create and list.
 
-- `webhooks_listWebhooks` — ids, URLs, subscribed events, and signing secrets
-- `webhooks_createWebhook` — `webhook` URL plus `events`. The response includes `secret` (`pingram_whsecret_...`). Save it.
-- `webhooks_updateWebhook` — replaces the URL and the full `events` list. The secret stays the same. Omitting an event unsubscribes it.
+- `webhooks_listWebhooks` — ids, URLs, and subscribed events
+- `webhooks_createWebhook` — `webhook` URL plus `events`. The response includes the endpoint id.
+- `webhooks_updateWebhook` — replaces the URL and the full `events` list. Omitting an event unsubscribes it. The signing secret is unchanged.
 - `webhooks_deleteWebhook` — stops delivery to that endpoint only
 
 Pass optional `accountId` (from `accounts_listAccounts`) when the user has more than one account.
+
+`pingram webhooks create` and `pingram webhooks list` print each endpoint's signing secret (`pingram_whsecret_...`). Save it from the CLI, or copy it from the dashboard. MCP does not return it.
 
 ```bash
 pingram webhooks list

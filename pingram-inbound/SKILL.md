@@ -151,7 +151,7 @@ Subscribe an http(s) endpoint to `EMAIL_INBOUND` and/or `SMS_INBOUND`.
 
 Inbound SMS to the free shared number only works when that person has already received a text from this number. Inbound SMS to a dedicated number works normally.
 
-**MCP:** `webhooks_createWebhook` with `webhook` and `events`. Save the returned `secret`. `webhooks_listWebhooks` shows existing endpoints. `webhooks_updateWebhook` replaces the full event list and keeps the secret.
+**MCP:** `webhooks_createWebhook` with `webhook` and `events`. The tool returns the endpoint id, not the signing secret. Copy the secret from the dashboard Webhook page. `webhooks_listWebhooks` shows existing endpoints. `webhooks_updateWebhook` replaces the full event list. The signing secret is unchanged.
 
 **CLI:**
 
