@@ -126,7 +126,7 @@ Sending and receiving use different limits.
 
 ### Domain Requirement
 
-Domain verification is required to send to others. Until then and for testing purposes, email can be sent from the testing Pingram address `noreply@pingram.io` to the account's own email.
+Domain verification is required to send to others. Until then and for testing purposes, email can be sent from the testing Pingram address `noreply@pingram.email` to the account's own email.
 
 ### Adding Email Senders
 
