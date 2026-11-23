@@ -1,6 +1,6 @@
 ---
 name: pingram-webhooks
-description: Configure Pingram webhooks. Use when the user wants delivery notifications, opens, clicks, bounces, inbound messages, or to create a webhook with MCP or the CLI.
+description: Configure Pingram webhooks. Use when the user wants delivery notifications, opens, clicks, bounces, inbound messages, group text events, or to create a webhook with MCP or the CLI.
 ---
 
 # Pingram Webhooks
@@ -75,6 +75,16 @@ pingram webhooks delete <endpointId>
 | `SMS_SUBSCRIBE`   | Recipient replied START (SMS to that number resumes)      |
 | `SMS_INBOUND`     | Received an inbound SMS, including HELP                   |
 
+### Group text events
+
+| Event Type             | Description                                                                                                            |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `GROUP_TEXT_DELIVERED` | One number received the group text. Sent again for each number. The first one marks it delivered.                      |
+| `GROUP_TEXT_FAILED`    | The group text could not be sent                                                                                       |
+| `GROUP_TEXT_INBOUND`   | Someone sent a message in a group that includes a number on this account. Not tied to an earlier send.                  |
+
+These payloads do not use `userId`. `GROUP_TEXT_DELIVERED` names the number that was delivered. STOP and START inside a group still arrive as `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`. Sending a group text is the [pingram-group-texts](../pingram-group-texts/SKILL.md) skill.
+
 ### Voice Events
 
 | Event Type         | Description            |
@@ -86,7 +96,7 @@ pingram webhooks delete <endpointId>
 
 ## Webhook Payload Structure
 
-All webhook payloads use a flat structure with the following fields:
+Email, SMS, and voice events use this shape. Group text events are separate and do not include `userId`.
 
 ```json
 {

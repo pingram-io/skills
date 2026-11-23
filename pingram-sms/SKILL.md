@@ -1,6 +1,6 @@
 ---
 name: pingram-sms
-description: Send SMS notifications with Pingram. Use when the user wants to send text messages, configure SMS settings, or set up two-way SMS communication.
+description: Send SMS with Pingram. Use when the user wants to send a text, configure SMS settings, or set up two-way SMS. A text to several numbers is the pingram-group-texts skill.
 ---
 
 # Pingram SMS
@@ -159,8 +159,7 @@ Webhook event types: `SMS_DELIVERED`, `SMS_FAILED`, `SMS_UNSUBSCRIBE`, `SMS_SUBS
 
 **Message not delivered:**
 
-- Check **Dashboard > Logs** for delivery status and error details
-- Or call `logs.getDeliveryStatus` (`GET /logs/status/{trackingIds}`) for email and SMS. It returns the tracking id, channel, status, and timestamp only
+- Check **Dashboard > Logs** for delivery status and error details.
 - Verify the number is valid and can receive SMS
 - Check the number isn't on a suppression list
 
