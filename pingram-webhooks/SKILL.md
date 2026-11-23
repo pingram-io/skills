@@ -80,10 +80,10 @@ pingram webhooks delete <endpointId>
 | Event Type             | Description                                                                                                            |
 | ---------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | `GROUP_TEXT_DELIVERED` | One number received the group text. Sent again for each number. The first one marks it delivered.                      |
-| `GROUP_TEXT_FAILED`    | The group text could not be sent                                                                                       |
+| `GROUP_TEXT_FAILED`    | The group text could not be sent. `GROUP_RECIPIENT_UNSUBSCRIBED` means someone in the group texted STOP.                                       |
 | `GROUP_TEXT_INBOUND`   | Someone sent a message in a group that includes a number on this account. Not tied to an earlier send.                  |
 
-These payloads do not use `userId`. `GROUP_TEXT_DELIVERED` names the number that was delivered. STOP and START inside a group still arrive as `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`. Sending a group text is the [pingram-group-texts](../pingram-group-texts/SKILL.md) skill.
+These payloads do not use `userId`. `GROUP_TEXT_DELIVERED` names the number that was delivered. STOP and START inside a group still arrive as `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`. `from` is the number that texted. Sending a group text is the [pingram-group-texts](../pingram-group-texts/SKILL.md) skill.
 
 ### Voice Events
 

@@ -100,9 +100,9 @@ Use this for:
 
 ### Receiving SMS Replies
 
-Pingram forwards an inbound text to your webhook as `SMS_INBOUND`. `trackingId` identifies this inbound message. Inbound SMS to the free shared number only works when that person has already received a text from this number. Inbound SMS to a dedicated number works normally. STOP and START arrive as `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`. HELP is a normal inbound message.
+Pingram forwards an inbound text to your webhook as `SMS_INBOUND`. `trackingId` identifies this inbound message. Inbound SMS to the free shared number only works when that person has already received a text from this number. Inbound SMS to a dedicated number works normally. STOP and START arrive as `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`. `from` is the number that texted. HELP is a normal inbound message.
 
-A message someone types in a group text is `GROUP_TEXT_INBOUND` for each account that owns a number in the group. The inbound event is not tied to an earlier send. STOP and START in that group are still `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`. Sending a group text is the [pingram-group-texts](../pingram-group-texts/SKILL.md) skill.
+A message someone types in a group text is `GROUP_TEXT_INBOUND` for each account that owns a number in the group. The inbound event is not tied to an earlier send. STOP and START in that group are still `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`, and `from` is the number that texted. Sending a group text is the [pingram-group-texts](../pingram-group-texts/SKILL.md) skill.
 
 ```json
 {

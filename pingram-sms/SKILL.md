@@ -84,7 +84,7 @@ Pingram uses A2P (Application-to-Person) enabled numbers for reliable delivery:
 
 ### STOP, START, and HELP
 
-Handled for the user. STOP blocks further SMS to that number, even if the app sends again. START lifts the block. No setup required.
+Handled for the user. STOP blocks further SMS to that number, even if the app sends again. START lifts the block. No setup required. A group text that includes someone who texted STOP is rejected entirely. See [pingram-group-texts](../pingram-group-texts/SKILL.md).
 
 HELP is not an automatic reply. It arrives as `SMS_INBOUND`. Reply with a short message such as "Acme: For help, visit acme.com. Reply STOP to opt out." STOP and START arrive as `SMS_UNSUBSCRIBE` and `SMS_SUBSCRIBE`.
 
